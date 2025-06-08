@@ -2,23 +2,31 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
+  const [list, setList] = useState([])
 
-  const [color, setColor] = useState("white")
+  function formsub(form){
+    let getinfo = form.get("text")
+    setList(prev => [...prev, getinfo])
+  }
 
-  const colors = ["red", "blue", "green", "yellow", "purple", "orange", "black"];
-
-  let mapped = colors.map(item => (
-    <button style={{backgroundColor: item, color: "gray"}} onClick={() => changeColor(item)}>{item}</button>
+  const maparray = list.map((item, id) => (
+    <li key={id}>{item} <button onClick={(() => deleteitem(id))}>X</button></li>
   ))
 
-  function changeColor(prop){
-    setColor(prop)
+  function deleteitem(props){
+    setList((prev) => prev.filter((item, id) => id !== props))
   }
-  
+
   return(
     <>
-    {mapped}
-    <div style={{width: "300px", height: "300px", backgroundColor: color}}></div>
+      <form action={formsub}>
+        <input type="text" name="text" id="text" />
+        <button>submit</button>
+      </form>
+
+      <ul>
+        {maparray}
+      </ul>
     </>
   )
 }
